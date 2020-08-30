@@ -77,15 +77,47 @@
             if (i == 0)
                 queue[0] = e;
             else
-                siftUp(i, e);
+                siftUp(i, e); // 使用 Comparator 与 队列第一元素进行比较，插入到队列头或者队列尾处。
             return true;
         }
+    
+        private void siftUpUsingComparator(int k, E x) {
+            while (k > 0) {
+                int parent = (k - 1) >>> 1;
+                Object e = queue[parent];
+                if (comparator.compare(x, (E) e) >= 0)
+                    break;
+                queue[k] = e;
+                k = parent;
+            }
+            queue[k] = x;
+        }
+    
+    
+    		// 扩容大小
             int newCapacity = oldCapacity + ((oldCapacity < 64) ? (oldCapacity + 2) : (oldCapacity >> 1) );
     
     ```
 
     
 
-  - 
+  - E poll ()  将队列第一个元素取出
+
+    ```
+        public E poll() {
+            if (size == 0)
+                return null;
+            int s = --size;
+            modCount++;
+            E result = (E) queue[0];
+            E x = (E) queue[s];
+            queue[s] = null;
+            if (s != 0)
+                siftDown(0, x); 
+            return result;
+        }
+    ```
+
+    
 
 - 
